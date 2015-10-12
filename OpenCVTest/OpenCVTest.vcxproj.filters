@@ -37,13 +37,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="MyPic.jpg">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="FindingContours.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\ref.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
@@ -65,5 +65,8 @@
     <Xml Include="haarcascades\haarcascade_russian_plate_number.xml" />
     <Xml Include="haarcascades\haarcascade_smile.xml" />
     <Xml Include="haarcascades\haarcascade_upperbody.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

@@ -40,7 +40,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <NuGetPackageImportStamp>b61fb42d</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>e73689c2</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -94,11 +94,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="FindingContours.png" />
     <Image Include="MyPic.jpg" />
+    <Image Include="Resources\ref.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="haarcascades\haarcascade_eye.xml">
@@ -124,6 +122,9 @@
     <Xml Include="haarcascades\haarcascade_russian_plate_number.xml" />
     <Xml Include="haarcascades\haarcascade_smile.xml" />
     <Xml Include="haarcascades\haarcascade_upperbody.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
