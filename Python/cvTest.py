@@ -33,10 +33,10 @@ class OpenCVCapture(object):
 def get_camera():	
 	# Camera to use for capturing images.
 	# Use this code for capturing from the Pi camera:
-	 return OpenCVCapture()
+	# return OpenCVCapture()
 	# Use this code for capturing from a webcam:
 	# import webcam
-	# return cv2.VideoCapture(0)
+	 return cv2.VideoCapture(0)
 
 	
 def main():
@@ -52,7 +52,7 @@ def main():
 
     #use if running on USB camera
     capture = get_camera()
-    color = False
+    color = True
     i = 0
     
     while (True):
@@ -65,11 +65,9 @@ def main():
                 #in C++ 6 = CV_BGR2GRAY
                 gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
             else:
-                hsv_image = None
-                lower_red_hue_range = None
                 #in c++ 40 = COLOR_BGR2HSV
-                cv2.cvtColor(0, 0, 40) 
-                cv2.inRange(hsv_image, up_red1, up_red2, lower_red_hue_range)
+                hsv_image = cv2.cvtColor(src, cv2.COLOR_BGR2HSV) 
+                lower_red_hue_range = cv2.inRange(hsv_image, up_red1, up_red2)
                 gray = lower_red_hue_range
 
             bw = cv2.blur(gray, (3,3))
@@ -88,7 +86,7 @@ def main():
                 if(abs(cv2.contourArea(contours[i])) < 100 or cv2.isContourConvex(approx)):
                     continue
                 if(len(approx) == 3):
-                    print "Triangle\n"
+                    print ("Triangle\n")
                 elif(len(approx) >= 4 and len(approx) <= 6):
                     vtc = len(approx)
 
@@ -99,21 +97,20 @@ def main():
                     #cos.sort()
 
                     if(vtc == 4):
-                        print "Rect\n"
+                        print ("Rect\n")
                     elif(vtc == 5):
-                        print "Penta\n"
+                        print ("Penta\n")
                     elif(vtc == 6):
-                        print "Hexa\n"
+                        print ("Hexa\n")
 
                 else:
                     area = cv2.contourArea(contours[i])
                     x,y,w,h = cv2.boundingRect(contours[i])
                     radius = w / 2
                     if(abs(1 - (w/h)) <= .2 and abs(1 - (area / (CV_PI * (radius * radius)))) < .2):
-                        print "Circle\n"
+                        print ("Circle\n")
                     
 
-        src = capture.read()
 
 
     cv2.waitKey(0)

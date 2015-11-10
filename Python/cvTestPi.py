@@ -14,31 +14,30 @@ CV_PI = 3.14159265359
 
 #PiCamera Class
 class OpenCVCapture(object):
-	def read(self):
-		"""Read a single frame from the camera and return the data as an OpenCV
+        def read(self):
+                """Read a single frame from the camera and return the data as an OpenCV
 		image (which is a numpy array).
 		"""
 		# This code is based on the picamera example at:
 		# http://picamera.readthedocs.org/en/release-1.0/recipes1.html#capturing-to-an-opencv-object
 		# Capture a frame from the camera.
-		from picamera import PiCamera
-		data = io.BytesIO()
-		with picamera.PiCamera() as camera:
-			camera.capture(data, format='jpeg')
-		data = np.fromstring(data.getvalue(), dtype=np.uint8)
+                data = io.BytesIO()
+                with PiCamera() as camera:
+                        camera.capture(data, format='jpeg')
+                data = np.fromstring(data.getvalue(), dtype=np.uint8)
 		# Decode the image data and return an OpenCV image.
-		image = cv2.imdecode(data, 1)
+                image = cv2.imdecode(data, 1)
 		# Save captured image for debugging.
-		cv2.imwrite(config.DEBUG_IMAGE, image)
+                #cv2.imwrite(config.DEBUG_IMAGE, image)
 		# Return the captured image data.
-		return image
+                return image
 
-def get_camera():	
+def get_camera():
+        #comment out the picamera inport lines as needed
 	# Camera to use for capturing images.
 	# Use this code for capturing from the Pi camera:
 	# return OpenCVCapture()
 	# Use this code for capturing from a webcam:
-	 import webcam
 	 return cv2.VideoCapture(0)
 
 	
@@ -60,37 +59,34 @@ def main():
 
     #use if running on USB camera
     capture = get_camera()
-    color = False
+    color = True
     i = 0
     
     while (True):
  #   for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
-        print ("In the for")
         #src = frame.array
-        print ("frame success")
         if(cv2.waitKey(1) & 0xFF == ord('q')):
             break
-        
-        ret, src = capture.read()
-        if(True):
+        try:
+                ret, src = capture.read()
+        except:
+                src = capture.read()
+        if(src is not None):
             if(not color):
                 #in C++ 6 = CV_BGR2GRAY
                 gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
-                print ("color")
             else:
                 hsv_image = None
                 lower_red_hue_range = None
                 #in c++ 40 = COLOR_BGR2HSV
-                cv2.cvtColor(0, 0, 40) 
-                cv2.inRange(hsv_image, up_red1, up_red2, lower_red_hue_range)
+                hsv_image = cv2.cvtColor(src, 40)
+                lower_red_hue_range = cv2.inRange(hsv_image, up_red1, up_red2)
                 gray = lower_red_hue_range
 
             bw = cv2.blur(gray, (3,3))
-            print ("blur")
-            bw = cv2.Canny(gray, 80,240,3)
-            print ("canny")
+            #bw = cv2.Canny(gray, 80,240,3)
             cv2.imshow("bw", bw)
-            print ("imshow")
+
 
             #find contours
             im, contours, hierarchy = cv2.findContours(bw, 0, 2)
@@ -98,7 +94,6 @@ def main():
 
 
             for i in range(0, len(contours)):
-                print ("in for 2 i:", i, ", len:", len(contours))
                 ret = cv2.arcLength(contours[i], True)*.02
                 approx = cv2.approxPolyDP(contours[i], ret, True)
                 if(abs(cv2.contourArea(contours[i])) < 100 or cv2.isContourConvex(approx)):
